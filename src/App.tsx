@@ -9,13 +9,13 @@ import { TodoList } from './components/TodoList';
 import { findMaxUserId } from './components/Services/Todo';
 import { findUserById } from './components/Services/User';
 
+const todoWithUser = todosFromServer.map(todo => ({
+  ...todo,
+  user: findUserById(usersFromServer, todo.userId),
+}));
+
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(() => {
-    return todosFromServer.map(todo => ({
-      ...todo,
-      user: findUserById(todo.userId),
-    }));
-  });
+  const [todos, setTodos] = useState<Todo[]>(todoWithUser);
 
   const handleAddTodo = (title: string, userId: number) => {
     const newTodo: Todo = {
@@ -23,7 +23,7 @@ export const App = () => {
       title: title,
       completed: false,
       userId: userId,
-      user: findUserById(userId),
+      user: findUserById(usersFromServer, userId),
     };
 
     setTodos([...todos, newTodo]);
