@@ -1,5 +1,5 @@
-import todosFromServer from '../../api/todos';
+import { Todo } from '../../Types/Todo';
 
-export const findMaxUserId = (): number => {
-  return Math.max(...todosFromServer.map(todo => todo.id)) + 1;
+export const findMaxUserId = (todos: Todo[]): number => {
+  return Math.max(...todos.map(todo => todo.id)) + 1;
 };

@@ -1,10 +1,8 @@
 import React from 'react';
-import { Todo } from '../../Types/Todo';
 import { User } from '../../Types/User';
-import { findMaxUserId } from '../Services/Todo';
 
 type Props = {
-  onAddTodo: (todo: Todo) => void;
+  onAddTodo: (title: string, userId: number) => void;
   users: User[];
 };
 
@@ -45,14 +43,7 @@ export const TodoFormAdd: React.FC<Props> = ({ onAddTodo, users }) => {
       return;
     }
 
-    const todo: Todo = {
-      id: findMaxUserId(),
-      title: values.title.trim(),
-      completed: false,
-      userId: +values.userId,
-    };
-
-    onAddTodo(todo);
+    onAddTodo(values.title.trim(), Number(values.userId));
 
     setValues(defaultValues);
   }
@@ -80,7 +71,7 @@ export const TodoFormAdd: React.FC<Props> = ({ onAddTodo, users }) => {
     <>
       <h1>Add todo form</h1>
 
-      <form onSubmit={handleSubmit} action="/api/todos" method="POST">
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <input
             value={values.title}
